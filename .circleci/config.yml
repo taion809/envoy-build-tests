@@ -46,8 +46,13 @@ jobs:
           path: /tmp/envoy-dist
       - deploy:
           command: |
-            /tmp/ghrelease release --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy release ${CIRCLE_TAG}"
-            /tmp/ghrelease upload --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file /tmp/envoy-dist
+            export TAG="${CIRCLE_TAG:-}"
+            if [[ -z "${TAG:-}" ]]; then
+              TAG=$(git describe --abbrev=0 --tags)
+            fi
+
+            /tmp/ghrelease release --tag "${TAG:-}" --user taion809 --repo envoy-build-tests --name "envoy release ${TAG:-}"
+            /tmp/ghrelease upload --tag "${TAG:-}" --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file /tmp/envoy-dist
 
 workflows:
   version: 2
