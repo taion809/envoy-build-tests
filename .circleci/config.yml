@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  build:
+    docker:
+        - image: circleci/golang:latest
+    working_directory: /go/src/github.com/taion809/envoy-build-tests
+    steps:
+      - checkout
+      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o envoy .
+  test:
+    docker:
+      - image: circleci/golang:latest
+    working_directory: /go/src/github.com/taion809/envoy-build-tests
+    steps:
+      - checkout
+      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test .
+
+  coverage:
+    docker:
+      - image: circleci/golang:latest
+    working_directory: /go/src/github.com/taion809/envoy-build-tests
+    steps:
+      - checkout
+      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test -coverage .
+
+  release:
+    docker:
+        - image: circleci/golang:latest
+    working_directory: /go/src/github.com/taion809/envoy-build-tests
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: 
+          command: |
+            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o envoy .
+            cp envoy /tmp/envoy-dist
+      - run: docker build --rm --no-cache -t taion809/envoy .
+      - store_artifacts:
+          path: /tmp/envoy-dist
+
+workflows:
+  version: 2
+  all:
+    jobs:
+      - build
+      - test
+      - coverage
+      - release:
+          requires:
+            - build
+            - test
+            - coverage
