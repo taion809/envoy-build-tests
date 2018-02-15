@@ -21,7 +21,7 @@ jobs:
     working_directory: /go/src/github.com/taion809/envoy-build-tests
     steps:
       - checkout
-      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test -coverage .
+      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test -cover .
 
   release:
     docker:
