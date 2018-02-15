@@ -29,6 +29,12 @@ jobs:
     working_directory: /go/src/github.com/taion809/envoy-build-tests
     steps:
       - checkout
+      - run:
+          command: |
+            wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 -O /tmp/ghrelease.tar.bz2
+            tar -xvjpf /tmp/ghrelease.tar.bz2
+            cp /tmp/github-release /usr/local/bin/ghrelease
+
       - setup_remote_docker
       - run: 
           command: |
@@ -37,6 +43,10 @@ jobs:
       - run: docker build --rm --no-cache -t taion809/envoy .
       - store_artifacts:
           path: /tmp/envoy-dist
+      - deploy:
+          command: |
+            ghrelease release --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy release ${CIRCLE_TAG}"
+            ghrelease upload --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file /tmp/envoy-dist
 
 workflows:
   version: 2
@@ -46,6 +56,9 @@ workflows:
       - test
       - coverage
       - release:
+          filters:
+            tags:
+              only: /^v.*/
           requires:
             - build
             - test
