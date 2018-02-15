@@ -10,7 +10,8 @@ echo "building using ${NUM_CPUS} CPUs"
 function bazel_release_binary_build() {
   echo "Building..."
   cd "${ENVOY_CI_DIR}"
-  bazel --batch build ${BAZEL_BUILD_OPTIONS} -c opt //source/exe:envoy-static.stamped
+  # bazel --batch build ${BAZEL_BUILD_OPTIONS} -c opt //source/exe:envoy-static.stamped
+  echo "test" > "${ENVOY_CI_DIR}"/bazel-genfiles/source/exe/envoy-static.stamped
   # Copy the envoy-static binary somewhere that we can access outside of the
   # container.
   cp -f \
@@ -23,7 +24,8 @@ function bazel_release_binary_build() {
   mkdir -p /tmp/envoy-dist
   cp -f "${ENVOY_DELIVERY_DIR}"/envoy "${ENVOY_SRCDIR}"/build_release
   mkdir -p "${ENVOY_SRCDIR}"/build_release_stripped
-  strip "${ENVOY_DELIVERY_DIR}"/envoy -o "${ENVOY_SRCDIR}"/build_release_stripped/envoy
+  cp "${ENVOY_CI_DIR}"/bazel-genfiles/source/exe/envoy-static.stamped "${ENVOY_SRCDIR}"/build_release_stripped/envoy
+  # strip "${ENVOY_DELIVERY_DIR}"/envoy -o "${ENVOY_SRCDIR}"/build_release_stripped/envoy
   cp -f "${ENVOY_SRCDIR}"/build_release_stripped/envoy /tmp/envoy-dist/envoy
 }
 
