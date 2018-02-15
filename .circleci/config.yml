@@ -33,7 +33,8 @@ jobs:
           command: |
             wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 -O /tmp/ghrelease.tar.bz2
             tar -xvjpf /tmp/ghrelease.tar.bz2 -C /tmp
-            cp /tmp/bin/linux/amd64/github-release /home/ubuntu/bin/ghrelease
+            cp /tmp/bin/linux/amd64/github-release /tmp/ghrelease
+            chmod +x /tmp/ghrelease
             
       - setup_remote_docker
       - run: 
@@ -45,8 +46,8 @@ jobs:
           path: /tmp/envoy-dist
       - deploy:
           command: |
-            ghrelease release --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy release ${CIRCLE_TAG}"
-            ghrelease upload --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file /tmp/envoy-dist
+            /tmp/ghrelease release --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy release ${CIRCLE_TAG}"
+            /tmp/ghrelease upload --tag ${CIRCLE_TAG} --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file /tmp/envoy-dist
 
 workflows:
   version: 2
