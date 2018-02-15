@@ -33,7 +33,7 @@ jobs:
           command: |
             wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 -O /tmp/ghrelease.tar.bz2
             tar -xvjpf /tmp/ghrelease.tar.bz2
-            cp /tmp/github-release /usr/local/bin/ghrelease
+            cp /tmp/bin/linux/amd64/github-release /usr/local/bin/ghrelease
 
       - setup_remote_docker
       - run: 
