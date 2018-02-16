@@ -24,11 +24,11 @@ function bazel_release_binary_build() {
   echo "Copying release binary for image build..."
   mkdir -p "${ENVOY_SRCDIR}"/build_release
   mkdir -p /tmp/envoy-dist
-  cp -f "${ENVOY_DELIVERY_DIR}"/envoy "${ENVOY_SRCDIR}"/build_release
+  cp "${ENVOY_DELIVERY_DIR}"/envoy "${ENVOY_SRCDIR}"/build_release
   mkdir -p "${ENVOY_SRCDIR}"/build_release_stripped
   cp "${ENVOY_CI_DIR}"/bazel-genfiles/source/exe/envoy-static.stamped "${ENVOY_SRCDIR}"/build_release_stripped/envoy
   # strip "${ENVOY_DELIVERY_DIR}"/envoy -o "${ENVOY_SRCDIR}"/build_release_stripped/envoy
-  cp -f "${ENVOY_SRCDIR}"/build_release_stripped/envoy /tmp/envoy-dist/envoy
+  cp "${ENVOY_SRCDIR}"/build_release_stripped/envoy /tmp/envoy-dist/envoy
 }
 
 function bazel_debug_binary_build() {
