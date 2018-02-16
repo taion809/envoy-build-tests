@@ -2,7 +2,7 @@
 
 # Run a CI build/test target, e.g. docs, asan.
 
-set -e
+set -ex
 
 . "$(dirname "$0")"/build_setup.sh
 echo "building using ${NUM_CPUS} CPUs"
