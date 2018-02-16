@@ -13,7 +13,7 @@ jobs:
        - checkout
        - run: ci/do_circle_ci.sh bazel.release
        - setup_remote_docker
-       - run: ci/do_github_publish.sh
+       - run: ci/do_circle_ci.sh github_release
        - store_artifacts:
            path: /tmp/envoy-dist
    asan:
