@@ -200,7 +200,6 @@ elif [[ "$1" == "github_release" ]]; then
       ghrelease release --tag "${TAG:-}" --user taion809 --repo envoy-build-tests --name "${TAG:-}"
       ghrelease upload --tag "${TAG:-}" --user taion809 --repo envoy-build-tests --name "envoy-linux-amd64" --file "${ENVOY_SRCDIR}/build_release_stripped/envoy"
   fi
-fi
 else
   echo "Invalid do_ci.sh target, see ci/README.md for valid targets."
   exit 1
