@@ -21,7 +21,13 @@ if [[ -n "${CIRCLE_TAG:-}" ]]; then
     exit 0
 fi
 
-TAG=$(git describe --abbrev=0 --tags)
+
+TAG=""
+
+(
+    cd "${CIRCLE_WORKING_DIRECTORY:-}"
+    TAG=$(git describe --abbrev=0 --tags)
+)
 
 wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 -O /tmp/ghrelease.tar.bz2
 tar -xvjpf /tmp/ghrelease.tar.bz2 -C /tmp
