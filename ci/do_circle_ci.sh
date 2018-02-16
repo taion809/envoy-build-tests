@@ -1,10 +1,10 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 # bazel uses jgit internally and the default circle-ci .gitconfig says to
 # convert https://github.com to ssh://git@github.com, which jgit does not support.
-mv ~/.gitconfig ~/.gitconfig_save
+# mv ~/.gitconfig ~/.gitconfig_save
 
 export ENVOY_SRCDIR="$(pwd)"
 

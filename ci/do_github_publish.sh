@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 if [[ ! -f "${ENVOY_SRCDIR}/build_release_stripped/envoy" ]]; then
     echo "could not locate envoy binary at path: ${ENVOY_SRCDIR}/build_release_stripped/envoy"
